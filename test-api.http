@@ -1,0 +1,96 @@
+### SecureBank ATM API Testing
+### Use with REST Client extension in VS Code or any HTTP client
+
+### Variables
+@baseUrl = http://localhost:3000/api
+@token = YOUR_JWT_TOKEN_HERE
+
+### Health Check
+GET {{baseUrl}}/health
+
+###
+
+### Login - Account 1
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "accountNumber": "1234567890",
+  "pin": "1234"
+}
+
+###
+
+### Login - Account 2
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "accountNumber": "9876543210",
+  "pin": "5678"
+}
+
+###
+
+### Get Balance (requires token)
+GET {{baseUrl}}/accounts/balance
+x-auth-token: {{token}}
+
+###
+
+### Get Transaction History (requires token)
+GET {{baseUrl}}/transactions
+x-auth-token: {{token}}
+
+###
+
+### Withdraw Money (requires token)
+POST {{baseUrl}}/transactions/withdraw
+Content-Type: application/json
+x-auth-token: {{token}}
+
+{
+  "amount": 100,
+  "currency": "USD",
+  "anomalyScore": 15
+}
+
+###
+
+### Deposit Money (requires token)
+POST {{baseUrl}}/transactions/deposit
+Content-Type: application/json
+x-auth-token: {{token}}
+
+{
+  "amount": 500,
+  "currency": "USD",
+  "anomalyScore": 10
+}
+
+###
+
+### Transfer Money (requires token)
+POST {{baseUrl}}/transactions/transfer
+Content-Type: application/json
+x-auth-token: {{token}}
+
+{
+  "toAccount": "9876543210",
+  "amount": 250,
+  "anomalyScore": 20
+}
+
+###
+
+### Change PIN (requires token)
+PUT {{baseUrl}}/accounts/change-pin
+Content-Type: application/json
+x-auth-token: {{token}}
+
+{
+  "currentPin": "1234",
+  "newPin": "5555"
+}
+
+###

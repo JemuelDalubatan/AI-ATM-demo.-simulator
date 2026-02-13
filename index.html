@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SecureBank ATM</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="atm-machine">
+        <div class="atm-screen" id="atmScreen">
+            <!-- Login Screen -->
+            <div class="screen active" id="loginScreen">
+                <div class="bank-logo">
+                    <h1>🏦 SecureBank</h1>
+                    <p>Virtual ATM Web Portal</p>
+                    <small style="color: #999;">Digital Banking Simulation</small>
+                </div>
+                <div class="login-form">
+                    <div class="input-group">
+                        <label>Account Number</label>
+                        <input type="text" id="accountNumber" placeholder="Enter 10-digit account" maxlength="10">
+                    </div>
+                    <div class="input-group">
+                        <label>PIN</label>
+                        <input type="password" id="pinInput" placeholder="Enter 4-digit PIN" maxlength="4">
+                    </div>
+                    <button class="btn btn-primary" onclick="login()">Login</button>
+                    <div class="demo-info">
+                        <p><strong>Demo Accounts:</strong></p>
+                        <p>Account: 1234567890 | PIN: 1234 | Balance: $5,000</p>
+                        <p>Account: 9876543210 | PIN: 5678 | Balance: $10,000</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Menu -->
+            <div class="screen" id="mainMenu">
+                <div class="user-info">
+                    <p>Welcome, <span id="userName"></span></p>
+                    <p class="account-num">Account: <span id="userAccount"></span></p>
+                </div>
+                <div class="balance-card">
+                    <h3>Available Balance</h3>
+                    <div class="balance-amount" id="balanceDisplay">$0.00</div>
+                </div>
+                
+                <!-- AI Insights Section -->
+                <div class="ai-insights-card" id="aiInsightsCard"></div>
+                
+                <div class="menu-grid">
+                    <button class="menu-btn" onclick="showScreen('withdrawScreen')">
+                        <span class="icon">�</span>
+                        <span>Virtual Withdrawal</span>
+                    </button>
+                    <button class="menu-btn" onclick="showScreen('depositScreen')">
+                        <span class="icon">💰</span>
+                        <span>Virtual Deposit</span>
+                    </button>
+                    <button class="menu-btn" onclick="showScreen('transferScreen')">
+                        <span class="icon">🔄</span>
+                        <span>Transfer</span>
+                    </button>
+                    <button class="menu-btn" onclick="showScreen('historyScreen')">
+                        <span class="icon">📊</span>
+                        <span>History</span>
+                    </button>
+                    <button class="menu-btn" onclick="showScreen('currencyScreen')">
+                        <span class="icon">💱</span>
+                        <span>Currency Exchange</span>
+                    </button>
+                    <button class="menu-btn" onclick="showScreen('changePinScreen')">
+                        <span class="icon">🔐</span>
+                        <span>Change PIN</span>
+                    </button>
+                    <button class="menu-btn" onclick="logout()">
+                        <span class="icon">🚪</span>
+                        <span>Logout</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Withdraw Screen -->
+            <div class="screen" id="withdrawScreen">
+                <h2>💳 Virtual Withdrawal</h2>
+                <div class="info-banner">
+                    <p>💡 Select your preferred currency and amount - your virtual balance will be updated instantly</p>
+                </div>
+                
+                <!-- Currency Selector -->
+                <div class="transaction-currency-selector">
+                    <label>💱 Withdrawal Currency</label>
+                    <select id="withdrawCurrency" onchange="updateWithdrawCurrency()">
+                        <option value="USD">🇺🇸 USD - US Dollar</option>
+                        <option value="EUR">🇪🇺 EUR - Euro</option>
+                        <option value="GBP">🇬🇧 GBP - British Pound</option>
+                        <option value="JPY">🇯🇵 JPY - Japanese Yen</option>
+                        <option value="PHP">🇵🇭 PHP - Philippine Peso</option>
+                        <option value="CNY">🇨🇳 CNY - Chinese Yuan</option>
+                        <option value="INR">🇮🇳 INR - Indian Rupee</option>
+                        <option value="AUD">🇦🇺 AUD - Australian Dollar</option>
+                        <option value="CAD">🇨🇦 CAD - Canadian Dollar</option>
+                    </select>
+                </div>
+                
+                <div class="currency-info-box" id="withdrawCurrencyInfo"></div>
+                
+                <div class="quick-amounts" id="withdrawQuickAmounts">
+                    <button class="amount-btn" onclick="withdrawInCurrency(20)">$20</button>
+                    <button class="amount-btn" onclick="withdrawInCurrency(50)">$50</button>
+                    <button class="amount-btn" onclick="withdrawInCurrency(100)">$100</button>
+                    <button class="amount-btn" onclick="withdrawInCurrency(200)">$200</button>
+                    <button class="amount-btn" onclick="withdrawInCurrency(500)">$500</button>
+                </div>
+                
+                <div class="input-group">
+                    <label id="withdrawAmountLabel">Custom Amount (USD)</label>
+                    <input type="number" id="withdrawAmount" placeholder="Enter amount" oninput="updateWithdrawPreview()">
+                    <div class="currency-preview" id="withdrawPreview"></div>
+                </div>
+                <button class="btn btn-primary" onclick="withdrawCustom()">Process Virtual Withdrawal</button>
+                <button class="btn btn-secondary" onclick="showScreen('mainMenu')">Cancel</button>
+            </div>
+
+            <!-- Deposit Screen -->
+            <div class="screen" id="depositScreen">
+                <h2>💳 Virtual Deposit</h2>
+                <div class="info-banner">
+                    <p>💡 Select your preferred currency and amount - your virtual balance will be updated instantly</p>
+                </div>
+                
+                <!-- Currency Selector -->
+                <div class="transaction-currency-selector">
+                    <label>💱 Deposit Currency</label>
+                    <select id="depositCurrency" onchange="updateDepositCurrency()">
+                        <option value="USD">🇺🇸 USD - US Dollar</option>
+                        <option value="EUR">🇪🇺 EUR - Euro</option>
+                        <option value="GBP">🇬🇧 GBP - British Pound</option>
+                        <option value="JPY">🇯🇵 JPY - Japanese Yen</option>
+                        <option value="PHP">🇵🇭 PHP - Philippine Peso</option>
+                        <option value="CNY">🇨🇳 CNY - Chinese Yuan</option>
+                        <option value="INR">🇮🇳 INR - Indian Rupee</option>
+                        <option value="AUD">🇦🇺 AUD - Australian Dollar</option>
+                        <option value="CAD">🇨🇦 CAD - Canadian Dollar</option>
+                    </select>
+                </div>
+                
+                <div class="currency-info-box" id="depositCurrencyInfo"></div>
+                
+                <div class="input-group">
+                    <label id="depositAmountLabel">Enter Amount (USD)</label>
+                    <input type="number" id="depositAmount" placeholder="Enter deposit amount" oninput="updateDepositPreview()">
+                    <div class="currency-preview" id="depositPreview"></div>
+                </div>
+                <button class="btn btn-primary" onclick="deposit()">Process Virtual Deposit</button>
+                <button class="btn btn-secondary" onclick="showScreen('mainMenu')">Cancel</button>
+            </div>
+
+            <!-- Transfer Screen -->
+            <div class="screen" id="transferScreen">
+                <h2>Transfer Money</h2>
+                <div class="input-group">
+                    <label>To Account Number</label>
+                    <input type="text" id="transferAccount" placeholder="Enter account number" maxlength="10">
+                </div>
+                <div class="input-group">
+                    <label>Amount</label>
+                    <input type="number" id="transferAmount" placeholder="Enter amount">
+                </div>
+                <button class="btn btn-primary" onclick="transfer()">Transfer</button>
+                <button class="btn btn-secondary" onclick="showScreen('mainMenu')">Cancel</button>
+            </div>
+
+            <!-- Transaction History -->
+            <div class="screen" id="historyScreen">
+                <h2>Transaction History</h2>
+                <div class="transaction-list" id="transactionList"></div>
+                <button class="btn btn-primary" onclick="downloadReceipt()">Download Receipt</button>
+                <button class="btn btn-secondary" onclick="showScreen('mainMenu')">Back</button>
+            </div>
+
+            <!-- Currency Exchange Screen -->
+            <div class="screen" id="currencyScreen">
+                <h2>💱 Currency Exchange & Market</h2>
+                
+                <!-- Market News -->
+                <div class="market-news" id="marketNews"></div>
+                
+                <!-- Currency Converter -->
+                <div class="currency-converter">
+                    <h3>Currency Converter</h3>
+                    <div class="converter-row">
+                        <div class="input-group">
+                            <label>Amount</label>
+                            <input type="number" id="convertAmount" placeholder="Enter amount" value="100">
+                        </div>
+                    </div>
+                    <div class="converter-row">
+                        <div class="input-group">
+                            <label>From</label>
+                            <select id="fromCurrency">
+                                <option value="USD">🇺🇸 USD</option>
+                                <option value="EUR">🇪🇺 EUR</option>
+                                <option value="GBP">🇬🇧 GBP</option>
+                                <option value="JPY">🇯🇵 JPY</option>
+                                <option value="PHP">🇵🇭 PHP</option>
+                                <option value="CNY">🇨🇳 CNY</option>
+                                <option value="INR">🇮🇳 INR</option>
+                            </select>
+                        </div>
+                        <div class="swap-icon" onclick="swapCurrencies()">⇄</div>
+                        <div class="input-group">
+                            <label>To</label>
+                            <select id="toCurrency">
+                                <option value="USD">🇺🇸 USD</option>
+                                <option value="EUR">🇪🇺 EUR</option>
+                                <option value="GBP">🇬🇧 GBP</option>
+                                <option value="JPY">🇯🇵 JPY</option>
+                                <option value="PHP" selected>🇵🇭 PHP</option>
+                                <option value="CNY">🇨🇳 CNY</option>
+                                <option value="INR">🇮🇳 INR</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="conversion-result" id="conversionResult"></div>
+                    <button class="btn btn-primary" onclick="convertCurrency()">Convert</button>
+                </div>
+                
+                <!-- Top Movers -->
+                <div class="top-movers" id="topMovers"></div>
+                
+                <button class="btn btn-secondary" onclick="showScreen('mainMenu')">Back</button>
+            </div>
+
+            <!-- Change PIN Screen -->
+            <div class="screen" id="changePinScreen">
+                <h2>Change PIN</h2>
+                <div class="input-group">
+                    <label>Current PIN</label>
+                    <input type="password" id="currentPin" placeholder="Enter current PIN" maxlength="4">
+                </div>
+                <div class="input-group">
+                    <label>New PIN</label>
+                    <input type="password" id="newPin" placeholder="Enter new PIN" maxlength="4">
+                </div>
+                <div class="input-group">
+                    <label>Confirm New PIN</label>
+                    <input type="password" id="confirmPin" placeholder="Confirm new PIN" maxlength="4">
+                </div>
+                <button class="btn btn-primary" onclick="changePin()">Change PIN</button>
+                <button class="btn btn-secondary" onclick="showScreen('mainMenu')">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="notification" id="notification"></div>
+    
+    <!-- Custom Security Alert Modal -->
+    <div class="security-alert-overlay" id="securityAlertOverlay">
+        <div class="security-alert-modal">
+            <div class="alert-header">
+                <div class="alert-icon">⚠️</div>
+                <h2>SECURITY ALERT</h2>
+            </div>
+            <div class="alert-body">
+                <h3 id="alertTitle">Suspicious Activity Detected</h3>
+                <div class="alert-message" id="alertMessage"></div>
+                <div class="alert-details" id="alertDetails"></div>
+            </div>
+            <div class="alert-footer">
+                <button class="alert-btn alert-btn-cancel" id="alertCancelBtn">Cancel Transaction</button>
+                <button class="alert-btn alert-btn-proceed" id="alertProceedBtn">Proceed Anyway</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- AI Security Dashboard -->
+    <div class="ai-dashboard" id="aiDashboard">
+        <div class="ai-panel">
+            <div class="ai-header">
+                <h3>🤖 AI Security Monitor</h3>
+                <button class="close-btn" onclick="closeAIDashboard()">×</button>
+            </div>
+            <div class="ai-content">
+                <div class="security-score">
+                    <h4>Behavioral Analysis</h4>
+                    <div class="score-circle" id="riskScoreCircle">
+                        <span id="riskScoreValue">0</span>
+                        <small>Risk Score</small>
+                    </div>
+                    <p id="riskLevel" class="risk-level">Analyzing...</p>
+                </div>
+                <div class="ai-insights" id="aiInsights"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Transaction Confirmation Modal -->
+    <div class="transaction-confirm-overlay" id="transactionConfirmOverlay">
+        <div class="transaction-confirm-modal">
+            <div class="confirm-header">
+                <h2 id="confirmTitle">Confirm Transaction</h2>
+            </div>
+            <div class="confirm-body">
+                <div class="confirm-icon" id="confirmIcon">💳</div>
+                <div class="confirm-message" id="confirmMessage"></div>
+                <div class="confirm-details" id="confirmDetails"></div>
+            </div>
+            <div class="confirm-footer">
+                <button class="confirm-btn confirm-btn-cancel" id="confirmCancelBtn">Cancel</button>
+                <button class="confirm-btn confirm-btn-proceed" id="confirmProceedBtn">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Receipt Modal -->
+    <div class="receipt-modal-overlay" id="receiptModalOverlay">
+        <div class="receipt-modal">
+            <div class="receipt-header">
+                <h2>� Transaction Receipt</h2>
+                <button class="close-btn" onclick="closeReceiptModal()">×</button>
+            </div>
+            <div class="receipt-content" id="receiptContent">
+                <!-- Receipt content will be populated here -->
+            </div>
+            <div class="receipt-footer">
+                <button class="receipt-btn receipt-btn-print" onclick="printReceipt()">
+                    🖨️ Print Receipt
+                </button>
+                <button class="receipt-btn receipt-btn-download" onclick="downloadReceiptFile()">
+                    💾 Download PDF
+                </button>
+                <button class="receipt-btn receipt-btn-cancel" onclick="closeReceiptModal()">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI Assistant Button -->
+    <button class="ai-assistant-btn" onclick="toggleAIDashboard()" title="AI Security Monitor">
+        🤖
+    </button>
+    
+    <script src="ai-currency.js"></script>
+    <script src="ai-security.js"></script>
+    <script src="script.js"></script>
+    <script src="receipt-modal.js"></script>
+</body>
+</html>
