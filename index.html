@@ -9,8 +9,90 @@
 <body>
     <div class="atm-machine">
         <div class="atm-screen" id="atmScreen">
+            <!-- Welcome/Introduction Screen -->
+            <div class="screen active" id="welcomeScreen">
+                <div class="welcome-container">
+                    <div class="welcome-header">
+                        <div class="welcome-logo">
+                            <h1>🏦 SecureBank</h1>
+                            <p class="welcome-subtitle">Virtual ATM Simulator</p>
+                        </div>
+                        <div class="ai-badge-intro">
+                            <span class="ai-icon">🤖</span>
+                            <span>AI-Powered Banking</span>
+                        </div>
+                    </div>
+                    
+                    <div class="welcome-content">
+                        <h2>Welcome to SecureBank Virtual ATM</h2>
+                        <p class="welcome-description">
+                            Experience the future of digital banking with our AI-enhanced virtual ATM simulator. 
+                            This is an educational demonstration platform designed to showcase modern banking technology.
+                        </p>
+                        
+                        <div class="features-grid">
+                            <div class="feature-card">
+                                <div class="feature-icon">💳</div>
+                                <h3>Virtual Transactions</h3>
+                                <p>Simulate deposits, withdrawals, and transfers with virtual currency</p>
+                            </div>
+                            <div class="feature-card">
+                                <div class="feature-icon">🤖</div>
+                                <h3>AI Security</h3>
+                                <p>Behavioral biometrics and fraud detection powered by AI</p>
+                            </div>
+                            <div class="feature-card">
+                                <div class="feature-icon">💱</div>
+                                <h3>Currency Exchange</h3>
+                                <p>Real-time currency conversion with market intelligence</p>
+                            </div>
+                            <div class="feature-card">
+                                <div class="feature-icon">📊</div>
+                                <h3>Financial Insights</h3>
+                                <p>AI-powered spending analysis and predictions</p>
+                            </div>
+                        </div>
+                        
+                        <div class="terms-section">
+                            <h3>⚠️ Important Notice</h3>
+                            <div class="terms-box">
+                                <div class="terms-content">
+                                    <h4>Terms & Conditions</h4>
+                                    <ul>
+                                        <li><strong>Educational Purpose Only:</strong> This is a simulation platform for demonstration and learning purposes.</li>
+                                        <li><strong>Virtual Currency:</strong> All transactions use virtual money with no real monetary value.</li>
+                                        <li><strong>No Real Banking:</strong> This is not connected to any real bank or financial institution.</li>
+                                        <li><strong>Data Storage:</strong> All data is stored locally in your browser and is not transmitted to any server.</li>
+                                        <li><strong>AI Features:</strong> AI security and fraud detection are simulated for educational demonstration.</li>
+                                        <li><strong>Demo Accounts:</strong> Pre-configured demo accounts are provided for testing purposes.</li>
+                                    </ul>
+                                    
+                                    <div class="disclaimer">
+                                        <p><strong>Disclaimer:</strong> By proceeding, you acknowledge that this is a virtual banking simulator. 
+                                        No real financial transactions will occur, and no real money is involved. This platform is designed 
+                                        for educational and demonstration purposes only.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="terms-checkbox">
+                                <label class="checkbox-container">
+                                    <input type="checkbox" id="acceptTerms">
+                                    <span class="checkmark"></span>
+                                    <span class="checkbox-label">I understand this is a virtual simulator and accept the terms</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <button class="btn btn-primary btn-large" onclick="proceedToLogin()" id="proceedBtn" disabled>
+                            Continue to Virtual ATM
+                        </button>
+                    </div>
+                </div>
+            </div>
+
             <!-- Login Screen -->
-            <div class="screen active" id="loginScreen">
+            <div class="screen" id="loginScreen">
                 <div class="bank-logo">
                     <h1>🏦 SecureBank</h1>
                     <p>Virtual ATM Web Portal</p>

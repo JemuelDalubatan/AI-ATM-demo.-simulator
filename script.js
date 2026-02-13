@@ -22,12 +22,9 @@ let displayCurrency = 'USD'; // Default display currency
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
     loadFromStorage();
-    showScreen('loginScreen');
     
-    // Show welcome message about AI features
-    setTimeout(() => {
-        showNotification('🤖 AI Security & Real-Time Currency Exchange Active', 'info');
-    }, 1000);
+    // Check if terms were accepted, otherwise show welcome screen
+    checkTermsAcceptance();
     
     // Update currency rates every 5 minutes
     setInterval(() => {
@@ -1168,4 +1165,43 @@ function downloadReceiptFile() {
     
     showNotification('Receipt downloaded successfully!', 'success');
     closeReceiptModal();
+}
+
+// Welcome screen - Terms acceptance
+document.addEventListener('DOMContentLoaded', () => {
+    const acceptTermsCheckbox = document.getElementById('acceptTerms');
+    const proceedBtn = document.getElementById('proceedBtn');
+    
+    if (acceptTermsCheckbox && proceedBtn) {
+        acceptTermsCheckbox.addEventListener('change', function() {
+            proceedBtn.disabled = !this.checked;
+        });
+    }
+});
+
+// Proceed to login screen
+function proceedToLogin() {
+    const acceptTerms = document.getElementById('acceptTerms');
+    
+    if (!acceptTerms.checked) {
+        showNotification('Please accept the terms and conditions to continue', 'error');
+        return;
+    }
+    
+    // Store acceptance in localStorage
+    localStorage.setItem('termsAccepted', 'true');
+    
+    // Show login screen
+    showScreen('loginScreen');
+    showNotification('Welcome to SecureBank Virtual ATM! 🏦', 'info');
+}
+
+// Check if terms were already accepted
+function checkTermsAcceptance() {
+    const termsAccepted = localStorage.getItem('termsAccepted');
+    if (termsAccepted === 'true') {
+        showScreen('loginScreen');
+    } else {
+        showScreen('welcomeScreen');
+    }
 }
